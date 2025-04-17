@@ -12,6 +12,7 @@ struct CreateDeck: Reducer {
     struct State: Equatable {
         var title: String = ""
         var description: String = ""
+        var wasCancelled: Bool = false // キャンセルされたかを追跡するフラグを追加
         var isSaveButtonDisabled: Bool {
             title.isEmpty // タイトルが空の場合は保存ボタンを無効にする
         }
@@ -35,7 +36,11 @@ struct CreateDeck: Reducer {
                 state.description = description
                 return .none
                 
-            case .saveButtonTapped, .cancelButtonTapped:
+            case .saveButtonTapped:
+                return .none
+                
+            case .cancelButtonTapped:
+                state.wasCancelled = true // キャンセルフラグを設定
                 return .none
             }
         }
