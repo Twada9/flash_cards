@@ -10,32 +10,50 @@ import ComposableArchitecture
 
 // 単語を表す構造体
 struct Word: Identifiable, Equatable {
-    let id: UUID = UUID()
+    var id: UUID
     var term: String
     var definition: String
+    
+    init(id: UUID = UUID(), term: String, definition: String) {
+        self.id = id
+        self.term = term
+        self.definition = definition
+    }
 }
 
 // 単語編集画面の状態
 struct EditWord: Reducer {
     struct State: Equatable {
         @BindingState var word: Word
+        var isSaveButtonDisabled: Bool {
+            word.term.isEmpty || word.definition.isEmpty
+        }
     }
 
     enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case saveButtonTapped
+        case cancelButtonTapped
     }
 
     var body: some Reducer<State, Action> {
         BindingReducer()
-        
-//        Reduce { state, action in
-//            switch action {
-//            case .binding(\.word.definition):
-//                return .none
-//            case .binding(_):
-//                return .none
-//            }
-//        }
+        Reduce { state, action in
+            switch action {
+            case .binding:
+                return .none
+                
+            case .saveButtonTapped:
+                // 単語が入力されていない場合は保存しない
+                if state.isSaveButtonDisabled {
+                    return .none
+                }
+                return .none
+                
+            case .cancelButtonTapped:
+                return .none
+            }
+        }
     }
 }
 
@@ -43,26 +61,54 @@ struct EditWord: Reducer {
 
 
 struct EditWordView: View {
-//    @Perception.Bindable var store: StoreOf<EditWord>
-//    @Bindable var store: StoreOf<EditWord>
     @Environment(\.dismiss) var dismiss
     let store: StoreOf<EditWord>
 
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             Form {
-                TextField("単語", text: viewStore.$word.term)
-                TextField("意味", text: viewStore.$word.definition)
+                Section(header: Text("単語")) {
+                    TextField("例: Hello", text: viewStore.$word.term)
+                        .font(.headline)
+                }
+                
+                Section(header: Text("意味")) {
+                    TextField("例: こんにちは", text: viewStore.$word.definition)
+                        .font(.headline)
+                }
             }
-            .navigationTitle("単語の編集")
+            .navigationTitle(viewStore.word.term.isEmpty ? "新しい単語" : viewStore.word.term)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("保存") {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("キャンセル") {
+                        viewStore.send(.cancelButtonTapped)
                         dismiss()
                     }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("保存") {
+                        if !viewStore.isSaveButtonDisabled {
+                            viewStore.send(.saveButtonTapped)
+                        }
+                        dismiss()
+                    }
+                    .disabled(viewStore.isSaveButtonDisabled)
                 }
             }
         }
     }
 }
 
+#Preview {
+    NavigationView {
+        EditWordView(
+            store: Store(
+                initialState: EditWord.State(
+                    word: Word(term: "", definition: "")
+                )
+            ) {
+                EditWord()
+            }
+        )
+    }
+}
