@@ -58,8 +58,6 @@ struct EditWord: Reducer {
 }
 
 // 単語帳詳細画面の状態
-
-
 struct EditWordView: View {
     @Environment(\.dismiss) var dismiss
     let store: StoreOf<EditWord>
@@ -73,8 +71,17 @@ struct EditWordView: View {
                 }
                 
                 Section(header: Text("意味")) {
-                    TextField("例: こんにちは", text: viewStore.$word.definition)
+                    TextEditor(text: viewStore.$word.definition)
                         .font(.headline)
+                        .frame(minHeight: 100)
+                        .scrollContentBackground(.hidden)
+                        .placeholder(when: viewStore.word.definition.isEmpty) {
+                            Text("例: こんにちは")
+                                .foregroundColor(.gray.opacity(0.7))
+                                .font(.headline)
+                                .padding(.top, 8)
+                                .padding(.leading, 4)
+                        }
                 }
             }
             .navigationTitle(viewStore.word.term.isEmpty ? "新しい単語" : viewStore.word.term)
@@ -95,6 +102,20 @@ struct EditWordView: View {
                     .disabled(viewStore.isSaveButtonDisabled)
                 }
             }
+        }
+    }
+}
+
+// TextEditorのプレースホルダー拡張
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .topLeading,
+        @ViewBuilder placeholder: () -> Content
+    ) -> some View {
+        ZStack(alignment: alignment) {
+            placeholder().opacity(shouldShow ? 1 : 0)
+            self
         }
     }
 }
