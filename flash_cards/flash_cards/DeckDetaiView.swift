@@ -23,7 +23,7 @@ struct DeckDetail: Reducer {
         case addWordButtonTapped
         case editWordButtonTapped(Word)
         case editWord(PresentationAction<EditWord.Action>)
-        case saveWord(Word)
+        case saveError
         case deleteWord(IndexSet)
         case flashCardButtonTapped
         case flashCard(PresentationAction<FlashCard.Action>)
@@ -40,7 +40,17 @@ struct DeckDetail: Reducer {
                 return .run { [deckId = state.deckId] send in
                     let words = await repositoryClient.getWords(deckId)
                     print("[DeckDetail] Loaded \(words.count) words")
-                    await send(.wordsLoaded(words))
+                    
+                    // 重複するIDの単語を除去
+                    let uniqueWords = words.reduce(into: [UUID: Word]()) { dict, word in
+                        dict[word.id] = word
+                    }.values.sorted(by: { $0.term < $1.term })
+                    
+                    if uniqueWords.count != words.count {
+                        print("[DeckDetail] Warning: Removed \(words.count - uniqueWords.count) duplicate words")
+                    }
+                    
+                    await send(.wordsLoaded(uniqueWords))
                 }
                 
             case let .wordsLoaded(words):
@@ -65,29 +75,34 @@ struct DeckDetail: Reducer {
                       !editWordState.isSaveButtonDisabled else {
                     return .none
                 }
-                return .send(.saveWord(editWordState.word))
+                if state.words.contains(where: { $0.id == editWordState.word.id }) {
+                    state.words[id: editWordState.word.id] = editWordState.word
+                    // 既存の単語を更新
+                    return .run { send in
+                        do {
+                            try await repositoryClient.updateWord(editWordState.word)
+                        } catch {
+                            print("Error update word: \(error)")
+                        }
+                    }
+                } else {
+                    state.words.append(editWordState.word)
+                    return .run { [deckId = state.deckId] send in
+                        do {
+                            try await repositoryClient.addWordToDeck(deckId, editWordState.word)
+                        } catch {
+                            print("Error saving word: \(error)")
+                        }
+                    }
+                }
                 
             case .editWord(.dismiss):
                 state.editWord = nil
                 return .none
                 
-            case .saveWord(let word):
-                if let index = state.words.firstIndex(where: { $0.id == word.id }) {
-                    // 既存の単語を更新
-                    state.words[id: word.id] = word
-                } else {
-                    // 新規単語を追加
-                    state.words.append(word)
-                }
-                
-                // Realmに保存
-                return .run { [deckId = state.deckId] send in
-                    do {
-                        try await repositoryClient.addWordToDeck(deckId, word)
-                    } catch {
-                        print("Error saving word: \(error)")
-                    }
-                }
+            case .saveError:
+//                state.words.remove(id: state.editWord.word.id)
+                return .none
                 
             case .deleteWord(let indexSet):
                 // 削除する単語のIDを取得

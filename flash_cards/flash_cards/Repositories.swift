@@ -84,9 +84,20 @@ class WordRepository: WordRepositoryProtocol {
     
     func updateWord(_ word: Word) throws {
         let realm = try getRealm()
-        let realmWord = RealmWord(word: word)
-        try realm.write {
-            realm.add(realmWord, update: .modified)
+        
+        if let existingWord = realm.object(ofType: RealmWord.self, forPrimaryKey: word.id) {
+            try realm.write {
+                existingWord.term = word.term
+                existingWord.definition = word.definition
+            }
+            print("[WordRepository] Word updated successfully: \(word.id)")
+        } else {
+            // 存在しない場合は新規作成（通常は起きないはずだが念のため）
+            print("[WordRepository] Warning: Word not found for update: \(word.id)")
+            let realmWord = RealmWord(word: word)
+            try realm.write {
+                realm.add(realmWord, update: .modified)
+            }
         }
     }
 }
