@@ -95,7 +95,12 @@ struct DeckList: Reducer {
                 guard let createDeckState = state.createDeck else { return .none }
                 state.createDeck = nil
                 
-                // 新しいデッキが作成されたかを確認
+                // キャンセルされた場合は保存しない
+                if createDeckState.wasCancelled {
+                    return .none
+                }
+                
+                // タイトルが入力されていて、かつキャンセルされていない場合のみ保存
                 if !createDeckState.title.isEmpty {
                     let newDeck = Deck(id: UUID(), title: createDeckState.title)
                     return .send(.saveDeck(newDeck))
