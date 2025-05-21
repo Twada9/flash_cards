@@ -15,6 +15,16 @@
 		1A05D4282D61844300B945C4 /* flash_cardsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4272D61844300B945C4 /* flash_cardsUITests.swift */; };
 		1A05D42A2D61844300B945C4 /* flash_cardsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4292D61844300B945C4 /* flash_cardsUITestsLaunchTests.swift */; };
 		1A05D46E2D61CB6E00B945C4 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1A05D46D2D61CB6E00B945C4 /* ComposableArchitecture */; };
+		1A05D4722D61CBA400B945C4 /* CreateDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4712D61CBA400B945C4 /* CreateDeckView.swift */; };
+		1A05D4742D61DF9900B945C4 /* EditWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4732D61DF9900B945C4 /* EditWordView.swift */; };
+		1A05D4762D61F3FE00B945C4 /* DeckDetaiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4752D61F3FE00B945C4 /* DeckDetaiView.swift */; };
+		1A441E0C2D870FBD00078AD8 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0B2D870FBD00078AD8 /* RealmModels.swift */; };
+		1A441E0E2D870FC300078AD8 /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0D2D870FC300078AD8 /* Repositories.swift */; };
+		1A441E102D870FC700078AD8 /* RepositoryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */; };
+		1A441E152D87149000078AD8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1A441E142D87149000078AD8 /* RealmSwift */; };
+		1A4678772D6C95F9008951DC /* DeckListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4678762D6C95F9008951DC /* DeckListView.swift */; };
+		1A5E90C02D756DAF005AE0C2 /* FlashCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */; };
+		1A6F508C2D8726B6002AEEB6 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6F508B2D8726B6002AEEB6 /* DemoData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +55,15 @@
 		1A05D4232D61844300B945C4 /* flash_cardsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flash_cardsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A05D4272D61844300B945C4 /* flash_cardsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flash_cardsUITests.swift; sourceTree = "<group>"; };
 		1A05D4292D61844300B945C4 /* flash_cardsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flash_cardsUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1A05D4712D61CBA400B945C4 /* CreateDeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDeckView.swift; sourceTree = "<group>"; };
+		1A05D4732D61DF9900B945C4 /* EditWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordView.swift; sourceTree = "<group>"; };
+		1A05D4752D61F3FE00B945C4 /* DeckDetaiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetaiView.swift; sourceTree = "<group>"; };
+		1A441E0B2D870FBD00078AD8 /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
+		1A441E0D2D870FC300078AD8 /* Repositories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
+		1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryClient.swift; sourceTree = "<group>"; };
+		1A4678762D6C95F9008951DC /* DeckListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckListView.swift; sourceTree = "<group>"; };
+		1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashCardView.swift; sourceTree = "<group>"; };
+		1A6F508B2D8726B6002AEEB6 /* DemoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A441E152D87149000078AD8 /* RealmSwift in Frameworks */,
 				1A05D46E2D61CB6E00B945C4 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -98,8 +118,17 @@
 			children = (
 				1A05D40C2D61844200B945C4 /* flash_cardsApp.swift */,
 				1A05D40E2D61844200B945C4 /* ContentView.swift */,
+				1A05D4712D61CBA400B945C4 /* CreateDeckView.swift */,
 				1A05D4102D61844300B945C4 /* Assets.xcassets */,
 				1A05D4122D61844300B945C4 /* Preview Content */,
+				1A05D4732D61DF9900B945C4 /* EditWordView.swift */,
+				1A05D4752D61F3FE00B945C4 /* DeckDetaiView.swift */,
+				1A441E0D2D870FC300078AD8 /* Repositories.swift */,
+				1A4678762D6C95F9008951DC /* DeckListView.swift */,
+				1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */,
+				1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */,
+				1A441E0B2D870FBD00078AD8 /* RealmModels.swift */,
+				1A6F508B2D8726B6002AEEB6 /* DemoData.swift */,
 			);
 			path = flash_cards;
 			sourceTree = "<group>";
@@ -147,6 +176,7 @@
 			name = flash_cards;
 			packageProductDependencies = (
 				1A05D46D2D61CB6E00B945C4 /* ComposableArchitecture */,
+				1A441E142D87149000078AD8 /* RealmSwift */,
 			);
 			productName = flash_cards;
 			productReference = 1A05D4092D61844200B945C4 /* flash_cards.app */;
@@ -222,6 +252,7 @@
 			mainGroup = 1A05D4002D61844100B945C4;
 			packageReferences = (
 				1A05D46C2D61CB6E00B945C4 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				1A441E112D87149000078AD8 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 1A05D40A2D61844200B945C4 /* Products */;
 			projectDirPath = "";
@@ -266,7 +297,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A05D40F2D61844200B945C4 /* ContentView.swift in Sources */,
+				1A441E0C2D870FBD00078AD8 /* RealmModels.swift in Sources */,
+				1A05D4722D61CBA400B945C4 /* CreateDeckView.swift in Sources */,
+				1A6F508C2D8726B6002AEEB6 /* DemoData.swift in Sources */,
+				1A5E90C02D756DAF005AE0C2 /* FlashCardView.swift in Sources */,
+				1A05D4742D61DF9900B945C4 /* EditWordView.swift in Sources */,
+				1A441E0E2D870FC300078AD8 /* Repositories.swift in Sources */,
+				1A441E102D870FC700078AD8 /* RepositoryClient.swift in Sources */,
+				1A4678772D6C95F9008951DC /* DeckListView.swift in Sources */,
 				1A05D40D2D61844200B945C4 /* flash_cardsApp.swift in Sources */,
+				1A05D4762D61F3FE00B945C4 /* DeckDetaiView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -608,6 +648,14 @@
 				minimumVersion = 1.17.1;
 			};
 		};
+		1A441E112D87149000078AD8 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.54.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -615,6 +663,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 1A05D46C2D61CB6E00B945C4 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		1A441E142D87149000078AD8 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1A441E112D87149000078AD8 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
