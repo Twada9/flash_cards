@@ -25,8 +25,28 @@ struct Word: Identifiable, Equatable {
 struct EditWord: Reducer {
     struct State: Equatable {
         @BindingState var word: Word
+        var originalWord: Word? // 元の単語を追跡するためのプロパティ
+        var isNewWord: Bool { originalWord == nil }
+        
         var isSaveButtonDisabled: Bool {
             word.term.isEmpty || word.definition.isEmpty
+        }
+        
+        // 新規単語用の初期化
+        init(word: Word) {
+            self.word = word
+            self.originalWord = nil // 新規作成の場合はnull
+        }
+        
+        // 既存単語の編集用の初期化
+        init(editingWord: Word) {
+// 重要: 既存の単語を編集する場合は、同じIDを維持
+            self.word = Word(
+                id: editingWord.id,
+                term: editingWord.term,
+                definition: editingWord.definition
+            )
+            self.originalWord = editingWord // 元の単語を保存
         }
     }
 
@@ -48,9 +68,12 @@ struct EditWord: Reducer {
                 if state.isSaveButtonDisabled {
                     return .none
                 }
+                
+                // 親コンポーネントに保存された単語を通知
                 return .none
                 
             case .cancelButtonTapped:
+                // 親コンポーネントで処理
                 return .none
             }
         }
@@ -94,9 +117,7 @@ struct EditWordView: View {
                 }
                 ToolbarItem(placement: .confirmationAction) {
                     Button("保存") {
-                        if !viewStore.isSaveButtonDisabled {
-                            viewStore.send(.saveButtonTapped)
-                        }
+                        viewStore.send(.saveButtonTapped)
                         dismiss()
                     }
                     .disabled(viewStore.isSaveButtonDisabled)
