@@ -99,10 +99,9 @@ struct FlashCardView: View {
     @State private var rotation: Double = 0
     @State private var scale: CGFloat = 1
     @State private var opacity: Double = 1
-    @State private var nextCardOpacity: Double = 0.5
-    @State private var nextCardScale: Double = 0.8
-    @State private var isRemoving: Bool = false
-    
+    @State private var backScale: CGFloat = 0.9
+    @State private var backOpacity: Double = 0.5
+
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
             ZStack {
@@ -125,17 +124,19 @@ struct FlashCardView: View {
                             // Next card preview (if available)
                             if viewStore.hasNextCard && !viewStore.isCompleted && viewStore.currentIndex + 1 < viewStore.words.count {
                                 cardView(for: viewStore.words[viewStore.currentIndex + 1], isShowingDefinition: false)
-                                    .scaleEffect(nextCardScale)
-                                    .opacity(nextCardOpacity)
-                                
+                                    .scaleEffect(backScale)
+                                    .opacity(backOpacity)
+                                    .id(viewStore.currentIndex + 1)
                             }
-                            if !isRemoving {
-                                                    cardView(for: viewStore.currentWord, isShowingDefinition: viewStore.isShowingDefinition)
-                                .zIndex(1)
+                           
+                            // Current card
+                            cardView(for: viewStore.currentWord, isShowingDefinition: viewStore.isShowingDefinition)
                                 .offset(x: offset)
                                 .rotationEffect(.degrees(rotation))
                                 .scaleEffect(scale)
                                 .opacity(opacity)
+                                .id(viewStore.currentIndex)
+                                .transition(.offset(x: offset))
                                 .gesture(
                                     DragGesture()
                                         .onChanged { gesture in
@@ -151,9 +152,6 @@ struct FlashCardView: View {
                                 .transition(AnyTransition.offset(x: offset))
                         }
         
-                            }
-                            // Current card
-                        
                         Spacer()
                         
                         // Navigation buttons
@@ -273,11 +271,8 @@ struct FlashCardView: View {
                     rotation = 10
                     scale = 0.5
                     opacity = 0
-
-                    nextCardScale = 1
-                    nextCardOpacity = 1
-                } completion: {
-                    isRemoving = true
+                    backScale = 1
+                    backOpacity = 1
                 }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -290,11 +285,8 @@ struct FlashCardView: View {
                     rotation = -10
                     scale = 0.5
                     opacity = 0
-
-                    nextCardScale = 1
-                    nextCardOpacity = 1
-                } completion: {
-                    isRemoving = true
+                    backScale = 1
+                    backOpacity = 1
                 }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
@@ -319,15 +311,14 @@ struct FlashCardView: View {
         rotation = 0
         scale = 1
         opacity = 1
-        
-        isRemoving = false
-
     }
     
     private func resetCardStateWithAnimation() {
         withAnimation(.spring()) {
-            resetCardState()
+            backScale = 0.9
+            backOpacity = 0.5
         }
+        resetCardState()
     }
     
     @ViewBuilder
