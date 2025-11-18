@@ -10,6 +10,12 @@ import ComposableArchitecture
 
 @main
 struct flash_cardsApp: App {
+    init() {
+        // Initialize Realm migration once when the app launches
+        let migration = RealmMigration()
+        migration()
+    }
+    
     var body: some Scene {
         WindowGroup {
             ContentView(
@@ -18,10 +24,6 @@ struct flash_cardsApp: App {
                         Content()
                     }
             )
-            .onAppear {
-                let migration = RealmMigration()
-                migration()
-            }
         }
     }
 }
