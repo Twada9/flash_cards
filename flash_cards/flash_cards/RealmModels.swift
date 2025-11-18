@@ -47,3 +47,27 @@ class RealmDeck: Object, Identifiable {
         return deck
     }
 }
+
+class RealmMigration {
+    func callAsFunction() {
+        // migration logic
+        let version: UInt64 = 1
+        
+        let config = Realm.Configuration(
+            schemaVersion: version,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 1 {
+                    migration.enumerateObjects(ofType: RealmDeck.className()) { _, _ in }
+                    migration.enumerateObjects(ofType: RealmWord.className()) { _, _ in }
+                }
+            }
+        )
+        Realm.Configuration.defaultConfiguration = config
+        
+        do {
+            _ = try Realm()
+        } catch {
+            
+        }
+    }
+}

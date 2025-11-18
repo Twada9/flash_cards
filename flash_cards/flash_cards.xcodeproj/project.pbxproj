@@ -21,8 +21,9 @@
 		1A441E0C2D870FBD00078AD8 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0B2D870FBD00078AD8 /* RealmModels.swift */; };
 		1A441E0E2D870FC300078AD8 /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0D2D870FC300078AD8 /* Repositories.swift */; };
 		1A441E102D870FC700078AD8 /* RepositoryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */; };
-		1A441E152D87149000078AD8 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1A441E142D87149000078AD8 /* RealmSwift */; };
 		1A4678772D6C95F9008951DC /* DeckListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4678762D6C95F9008951DC /* DeckListView.swift */; };
+		1A4A8FCA2ECBD7C0000626A6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A8FC92ECBD7C0000626A6 /* RealmSwift */; };
+		1A4A8FCB2ECBD80D000626A6 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A8FC92ECBD7C0000626A6 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A5E90C02D756DAF005AE0C2 /* FlashCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */; };
 		1A6F508C2D8726B6002AEEB6 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6F508B2D8726B6002AEEB6 /* DemoData.swift */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,20 @@
 			remoteInfo = flash_cards;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1A4A8FCC2ECBD80D000626A6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1A4A8FCB2ECBD80D000626A6 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1A05D4092D61844200B945C4 /* flash_cards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flash_cards.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A441E152D87149000078AD8 /* RealmSwift in Frameworks */,
+				1A4A8FCA2ECBD7C0000626A6 /* RealmSwift in Frameworks */,
 				1A05D46E2D61CB6E00B945C4 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -168,6 +183,7 @@
 				1A05D4052D61844200B945C4 /* Sources */,
 				1A05D4062D61844200B945C4 /* Frameworks */,
 				1A05D4072D61844200B945C4 /* Resources */,
+				1A4A8FCC2ECBD80D000626A6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -176,7 +192,7 @@
 			name = flash_cards;
 			packageProductDependencies = (
 				1A05D46D2D61CB6E00B945C4 /* ComposableArchitecture */,
-				1A441E142D87149000078AD8 /* RealmSwift */,
+				1A4A8FC92ECBD7C0000626A6 /* RealmSwift */,
 			);
 			productName = flash_cards;
 			productReference = 1A05D4092D61844200B945C4 /* flash_cards.app */;
@@ -252,7 +268,7 @@
 			mainGroup = 1A05D4002D61844100B945C4;
 			packageReferences = (
 				1A05D46C2D61CB6E00B945C4 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				1A441E112D87149000078AD8 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				1A4A8FC62ECBD7C0000626A6 /* XCRemoteSwiftPackageReference "realm-swift" */,
 			);
 			productRefGroup = 1A05D40A2D61844200B945C4 /* Products */;
 			projectDirPath = "";
@@ -470,7 +486,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"flash_cards/Preview Content\"";
-				DEVELOPMENT_TEAM = 4MXK2RFKD8;
+				DEVELOPMENT_TEAM = 92RKP6PQSK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -500,7 +516,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"flash_cards/Preview Content\"";
-				DEVELOPMENT_TEAM = 4MXK2RFKD8;
+				DEVELOPMENT_TEAM = 92RKP6PQSK;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -648,12 +664,12 @@
 				minimumVersion = 1.17.1;
 			};
 		};
-		1A441E112D87149000078AD8 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		1A4A8FC62ECBD7C0000626A6 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.54.3;
+				branch = master;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -664,9 +680,9 @@
 			package = 1A05D46C2D61CB6E00B945C4 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
 		};
-		1A441E142D87149000078AD8 /* RealmSwift */ = {
+		1A4A8FC92ECBD7C0000626A6 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 1A441E112D87149000078AD8 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			package = 1A4A8FC62ECBD7C0000626A6 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */

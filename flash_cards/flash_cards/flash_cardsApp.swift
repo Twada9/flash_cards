@@ -18,6 +18,10 @@ struct flash_cardsApp: App {
                         Content()
                     }
             )
+            .onAppear {
+                let migration = RealmMigration()
+                migration()
+            }
         }
     }
 }
