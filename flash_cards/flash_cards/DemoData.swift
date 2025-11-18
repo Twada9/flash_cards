@@ -1,11 +1,13 @@
 import Foundation
 import RealmSwift
+import Dependencies
 
 struct DemoData {
     static let decks: [Deck] = [
         Deck(id: UUID(), title: "基本英単語"),
-        Deck(id: UUID(), title: "TOEIC頻出単語"),
-        Deck(id: UUID(), title: "プログラミング用語")
+        Deck(id: UUID(), title: "TOEIC頻出単語")
+//        ,
+//        Deck(id: UUID(), title: "プログラミング用語")
     ]
     
     static let words: [(deckIndex: Int, words: [Word])] = [
@@ -32,23 +34,24 @@ struct DemoData {
             Word(term: "deadline", definition: "締切"),
             Word(term: "expertise", definition: "専門知識"),
             Word(term: "optimize", definition: "最適化する")
-        ]),
-        (2, [
-            Word(term: "API", definition: "アプリケーションプログラミングインターフェース"),
-            Word(term: "Git", definition: "分散型バージョン管理システム"),
-            Word(term: "HTTP", definition: "ハイパーテキスト転送プロトコル"),
-            Word(term: "JSON", definition: "JavaScript Object Notation"),
-            Word(term: "REST", definition: "Representational State Transfer"),
-            Word(term: "SQL", definition: "構造化照会言語"),
-            Word(term: "UI/UX", definition: "ユーザーインターフェース/ユーザーエクスペリエンス"),
-            Word(term: "Variable", definition: "変数"),
-            Word(term: "Function", definition: "関数"),
-            Word(term: "Object", definition: "オブジェクト")
         ])
+//        ,
+//        (2, [
+//            Word(term: "API", definition: "アプリケーションプログラミングインターフェース"),
+//            Word(term: "Git", definition: "分散型バージョン管理システム"),
+//            Word(term: "HTTP", definition: "ハイパーテキスト転送プロトコル"),
+//            Word(term: "JSON", definition: "JavaScript Object Notation"),
+//            Word(term: "REST", definition: "Representational State Transfer"),
+//            Word(term: "SQL", definition: "構造化照会言語"),
+//            Word(term: "UI/UX", definition: "ユーザーインターフェース/ユーザーエクスペリエンス"),
+//            Word(term: "Variable", definition: "変数"),
+//            Word(term: "Function", definition: "関数"),
+//            Word(term: "Object", definition: "オブジェクト")
+//        ])
     ]
     
     static func insertDemoDataIfNeeded() async throws {
-        let client = RepositoryClient.liveValue
+        @Dependency(\.repositoryClient) var client
         
         print("[DemoData] Starting demo data insertion check...")
         

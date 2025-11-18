@@ -1,5 +1,57 @@
 import Foundation
 import RealmSwift
+import ComposableArchitecture
+
+// RealmConfigurationをDependencyとして提供
+struct RealmConfigurationClient {
+    var getConfiguration: @Sendable () -> Realm.Configuration
+    var getRealm: @Sendable () throws -> Realm
+}
+
+extension RealmConfigurationClient: DependencyKey {
+    static let liveValue: RealmConfigurationClient = {
+        let configuration = Realm.Configuration(
+            schemaVersion: 1,
+            migrationBlock: { migration, oldSchemaVersion in
+                if oldSchemaVersion < 1 {
+                    migration.enumerateObjects(ofType: RealmDeck.className()) { _, _ in }
+                    migration.enumerateObjects(ofType: RealmWord.className()) { _, _ in }
+                }
+            },
+            objectTypes: [RealmWord.self, RealmDeck.self]
+        )
+        
+        // デフォルト設定を一度だけ設定
+        Realm.Configuration.defaultConfiguration = configuration
+        
+        return RealmConfigurationClient(
+            getConfiguration: { configuration },
+            getRealm: { try Realm(configuration: configuration) }
+        )
+    }()
+    
+    static let testValue = RealmConfigurationClient(
+        getConfiguration: {
+            Realm.Configuration(
+                inMemoryIdentifier: "test-realm",
+                objectTypes: [RealmWord.self, RealmDeck.self]
+            )
+        },
+        getRealm: {
+            try Realm(configuration: Realm.Configuration(
+                inMemoryIdentifier: "test-realm",
+                objectTypes: [RealmWord.self, RealmDeck.self]
+            ))
+        }
+    )
+}
+
+extension DependencyValues {
+    var realmConfiguration: RealmConfigurationClient {
+        get { self[RealmConfigurationClient.self] }
+        set { self[RealmConfigurationClient.self] = newValue }
+    }
+}
 
 // Realmで使用するモデルクラス
 class RealmWord: Object, Identifiable {

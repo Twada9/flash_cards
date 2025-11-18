@@ -101,6 +101,8 @@ struct FlashCardView: View {
     @State private var opacity: Double = 1
     @State private var backScale: CGFloat = 0.9
     @State private var backOpacity: Double = 0.5
+    @State private var showingCorrectIcon: Bool = false
+    @State private var showingIncorrectIcon: Bool = false
 
     var body: some View {
         WithViewStore(self.store, observe: { $0 }) { viewStore in
@@ -137,6 +139,24 @@ struct FlashCardView: View {
                                 .opacity(opacity)
                                 .id(viewStore.currentIndex)
                                 .transition(.offset(x: offset))
+                                .overlay(
+                                    // Feedback icons overlay
+                                    ZStack {
+                                        if showingCorrectIcon {
+                                            Text("⭕️")
+                                                .font(.system(size: 100))
+                                                .opacity(0.8)
+                                                .transition(.opacity)
+                                        }
+                                        
+                                        if showingIncorrectIcon {
+                                            Text("❌")
+                                                .font(.system(size: 100))
+                                                .opacity(0.8)
+                                                .transition(.opacity)
+                                        }
+                                    }
+                                )
                                 .gesture(
                                     DragGesture()
                                         .onChanged { gesture in
@@ -155,43 +175,6 @@ struct FlashCardView: View {
                         Spacer()
                         
                         // Navigation buttons
-                        HStack {
-                            Button(action: {
-                                viewStore.send(.previousCard)
-                            }) {
-                                Image(systemName: "arrow.left.circle.fill")
-                                    .font(.largeTitle)
-                                    .foregroundColor(viewStore.hasPreviousCard ? .blue : .gray)
-                            }
-                            .disabled(!viewStore.hasPreviousCard)
-                            .padding()
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                viewStore.send(.resetCards)
-                            }) {
-                                Image(systemName: "arrow.counterclockwise.circle.fill")
-                                    .font(.largeTitle)
-                                    .foregroundColor(.blue)
-                            }
-                            .padding()
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                if viewStore.currentIndex == viewStore.words.count - 1 {
-                                    viewStore.send(.completeCards)
-                                } else {
-                                    viewStore.send(.nextCard)
-                                }
-                            }) {
-                                Image(systemName: "arrow.right.circle.fill")
-                                    .font(.largeTitle)
-                                    .foregroundColor(.blue)
-                            }
-                            .padding()
-                        }
                         .padding(.bottom)
                     }
                 }
@@ -258,6 +241,23 @@ struct FlashCardView: View {
         let dragPercentage = abs(offset / UIScreen.main.bounds.width)
         scale = 1 - (dragPercentage * 0.2)
         opacity = 1 - (dragPercentage * 0.5)
+        
+        // アイコンの表示制御
+        let threshold: CGFloat = 50
+        withAnimation(.easeInOut(duration: 0.2)) {
+            if offset > threshold {
+                // 右スワイプ = 正解
+                showingCorrectIcon = true
+                showingIncorrectIcon = false
+            } else if offset < -threshold {
+                // 左スワイプ = ハズレ
+                showingIncorrectIcon = true
+                showingCorrectIcon = false
+            } else {
+                showingCorrectIcon = false
+                showingIncorrectIcon = false
+            }
+        }
     }
     
     private func handleDragEnded(_ gesture: DragGesture.Value, viewStore: ViewStore<FlashCard.State, FlashCard.Action>) {
@@ -265,7 +265,8 @@ struct FlashCardView: View {
         let velocity = gesture.predictedEndTranslation.width - gesture.translation.width
         
         if abs(gesture.translation.width) > threshold || abs(velocity) > 500 {
-            if gesture.translation.width > 0 && viewStore.hasPreviousCard {
+            if gesture.translation.width > 0 {
+                // 右スワイプ = 理解している
                 withAnimation(.spring()) {
                     offset = UIScreen.main.bounds.width
                     rotation = 10
@@ -274,12 +275,16 @@ struct FlashCardView: View {
                     backScale = 1
                     backOpacity = 1
                 }
-
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    viewStore.send(.previousCard)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    if viewStore.isLastCard {
+                        viewStore.send(.completeCards)
+                    } else {
+                        viewStore.send(.nextCard)
+                    }
                     resetCardStateWithAnimation()
                 }
             } else if gesture.translation.width < 0 {
+                // 左スワイプ = わからない
                 withAnimation(.spring()) {
                     offset = -UIScreen.main.bounds.width
                     rotation = -10
@@ -311,6 +316,8 @@ struct FlashCardView: View {
         rotation = 0
         scale = 1
         opacity = 1
+        showingCorrectIcon = false
+        showingIncorrectIcon = false
     }
     
     private func resetCardStateWithAnimation() {
@@ -331,6 +338,7 @@ struct FlashCardView: View {
                 
                 VStack(spacing: 20) {
                     Text(word.term)
+                        .foregroundColor(.black)
                         .font(.system(size: 32, weight: .bold))
                         .multilineTextAlignment(.center)
                         .padding()
@@ -340,6 +348,7 @@ struct FlashCardView: View {
                             .padding(.horizontal)
                         
                         Text(word.definition)
+                            .foregroundColor(.black)
                             .font(.system(size: 24))
                             .multilineTextAlignment(.center)
                             .padding()
@@ -347,7 +356,7 @@ struct FlashCardView: View {
                     } else {
                         Text("タップして意味を表示")
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.gray)
                             .padding(.bottom)
                     }
                 }

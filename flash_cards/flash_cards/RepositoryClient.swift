@@ -24,72 +24,68 @@ struct RepositoryClient {
 
 extension RepositoryClient: DependencyKey {
     static var liveValue: RepositoryClient {
-        do {
-            let deckRepo = try DeckRepository()
-            let wordRepo = try WordRepository()
-            
-            return RepositoryClient(
-                deckRepository: deckRepo,
-                wordRepository: wordRepo,
-                saveDeck: { deck in
-                    try await Task {
-                        try deckRepo.saveDeck(deck)
-                    }.value
-                },
-                getAllDecks: {
-                    await Task {
-                        deckRepo.getAllDecks()
-                    }.value
-                },
-                getDeck: { id in
-                    await Task {
-                        deckRepo.getDeck(id: id)
-                    }.value
-                },
-                deleteDeck: { id in
-                    try await Task {
-                        try deckRepo.deleteDeck(id: id)
-                    }.value
-                },
-                updateDeck: { deck in
-                    try await Task {
-                        try deckRepo.updateDeck(deck)
-                    }.value
-                },
-                addWordToDeck: { deckId, word in
-                    try await Task {
-                        try deckRepo.addWordToDeck(deckId: deckId, word: word)
-                    }.value
-                },
-                removeWordFromDeck: { deckId, wordId in
-                    try await Task {
-                        try deckRepo.removeWordFromDeck(deckId: deckId, wordId: wordId)
-                    }.value
-                },
-                saveWord: { word in
-                    try await Task {
-                        try wordRepo.saveWord(word)
-                    }.value
-                },
-                getWords: { deckId in
-                    await Task {
-                        wordRepo.getWords(forDeckId: deckId)
-                    }.value
-                },
-                deleteWord: { id in
-                    try await Task {
-                        try wordRepo.deleteWord(id: id)
-                    }.value
-                },
-                updateWord: { word in
-                    try await Task {
-                        try wordRepo.updateWord(word)
-                    }.value
-                }
-            )
-        } catch {
-            fatalError("Failed to initialize repositories: \(error)")
-        }
+        let deckRepo = DeckRepository()
+        let wordRepo = WordRepository()
+        
+        return RepositoryClient(
+            deckRepository: deckRepo,
+            wordRepository: wordRepo,
+            saveDeck: { deck in
+                try await Task {
+                    try deckRepo.saveDeck(deck)
+                }.value
+            },
+            getAllDecks: {
+                await Task {
+                    deckRepo.getAllDecks()
+                }.value
+            },
+            getDeck: { id in
+                await Task {
+                    deckRepo.getDeck(id: id)
+                }.value
+            },
+            deleteDeck: { id in
+                try await Task {
+                    try deckRepo.deleteDeck(id: id)
+                }.value
+            },
+            updateDeck: { deck in
+                try await Task {
+                    try deckRepo.updateDeck(deck)
+                }.value
+            },
+            addWordToDeck: { deckId, word in
+                try await Task {
+                    try deckRepo.addWordToDeck(deckId: deckId, word: word)
+                }.value
+            },
+            removeWordFromDeck: { deckId, wordId in
+                try await Task {
+                    try deckRepo.removeWordFromDeck(deckId: deckId, wordId: wordId)
+                }.value
+            },
+            saveWord: { word in
+                try await Task {
+                    try wordRepo.saveWord(word)
+                }.value
+            },
+            getWords: { deckId in
+                await Task {
+                    wordRepo.getWords(forDeckId: deckId)
+                }.value
+            },
+            deleteWord: { id in
+                try await Task {
+                    try wordRepo.deleteWord(id: id)
+                }.value
+            },
+            updateWord: { word in
+                try await Task {
+                    try wordRepo.updateWord(word)
+                }.value
+            }
+        )
     }
     
     // テスト用のモックリポジトリクライアント

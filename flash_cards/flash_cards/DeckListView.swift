@@ -219,9 +219,6 @@ struct DeckListView: View {
                     }
                 }
             )
-            .onAppear {
-                viewStore.send(.onAppear)
-            }
         }
     }
 }

@@ -1,5 +1,5 @@
 {
-  "originHash" : "e254580b21445b6774c892f47a511f7e5d4d6deca33bfb9c565ad1020f864a37",
+  "originHash" : "f65e2da7bede8737c569eaccdb59915ee4cf5c21441979bb5cdccc29e2ab69a9",
   "pins" : [
     {
       "identity" : "combine-schedulers",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "8cb364a6a63695df296f05b53f7c3f3b1dda6af3",
-        "version" : "10.54.3"
+        "revision" : "1c105d34f25af7851c5a3ff146be006de247a6b4",
+        "version" : "10.54.6"
       }
     },
     {
