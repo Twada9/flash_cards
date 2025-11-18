@@ -11,38 +11,10 @@ protocol WordRepositoryProtocol {
 }
 
 class WordRepository: WordRepositoryProtocol {
-    private let configuration: Realm.Configuration
-    
-    init() throws {
-        print("[WordRepository] Initializing...")
-        // Realmの設定
-        configuration = Realm.Configuration(
-            schemaVersion: 1,
-            migrationBlock: nil,
-            deleteRealmIfMigrationNeeded: true,
-            objectTypes: [RealmWord.self, RealmDeck.self]
-        )
-        
-        // グローバル設定として設定
-        Realm.Configuration.defaultConfiguration = configuration
-        
-        // 設定のテスト
-        do {
-            let realm = try Realm(configuration: configuration)
-            print("[WordRepository] Realm initialized successfully at path: \(realm.configuration.fileURL?.path ?? "unknown")")
-        } catch {
-            print("[WordRepository] Failed to initialize Realm: \(error)")
-            throw error
-        }
-    }
+    @Dependency(\.realmConfiguration) var realmConfig
     
     private func getRealm() throws -> Realm {
-        do {
-            return try Realm(configuration: configuration)
-        } catch {
-            print("[WordRepository] Failed to get Realm instance: \(error)")
-            throw error
-        }
+        return try realmConfig.getRealm()
     }
     
     func saveWord(_ word: Word) throws {
@@ -114,38 +86,10 @@ protocol DeckRepositoryProtocol {
 }
 
 class DeckRepository: DeckRepositoryProtocol {
-    private let configuration: Realm.Configuration
-    
-    init() throws {
-        print("[DeckRepository] Initializing...")
-        // Realmの設定
-        configuration = Realm.Configuration(
-            schemaVersion: 1,
-            migrationBlock: nil,
-            deleteRealmIfMigrationNeeded: true,
-            objectTypes: [RealmWord.self, RealmDeck.self]
-        )
-        
-        // グローバル設定として設定
-        Realm.Configuration.defaultConfiguration = configuration
-        
-        // 設定のテスト
-        do {
-            let realm = try Realm(configuration: configuration)
-            print("[DeckRepository] Realm initialized successfully at path: \(realm.configuration.fileURL?.path ?? "unknown")")
-        } catch {
-            print("[DeckRepository] Failed to initialize Realm: \(error)")
-            throw error
-        }
-    }
+    @Dependency(\.realmConfiguration) var realmConfig
     
     private func getRealm() throws -> Realm {
-        do {
-            return try Realm(configuration: configuration)
-        } catch {
-            print("[DeckRepository] Failed to get Realm instance: \(error)")
-            throw error
-        }
+        return try realmConfig.getRealm()
     }
     
     func saveDeck(_ deck: Deck) throws {
