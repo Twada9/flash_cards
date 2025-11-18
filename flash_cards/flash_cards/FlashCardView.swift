@@ -175,43 +175,6 @@ struct FlashCardView: View {
                         Spacer()
                         
                         // Navigation buttons
-                        HStack {
-                            Button(action: {
-                                viewStore.send(.previousCard)
-                            }) {
-                                Image(systemName: "arrow.left.circle.fill")
-                                    .font(.largeTitle)
-                                    .foregroundColor(viewStore.hasPreviousCard ? .blue : .gray)
-                            }
-                            .disabled(!viewStore.hasPreviousCard)
-                            .padding()
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                viewStore.send(.resetCards)
-                            }) {
-                                Image(systemName: "arrow.counterclockwise.circle.fill")
-                                    .font(.largeTitle)
-                                    .foregroundColor(.blue)
-                            }
-                            .padding()
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                if viewStore.currentIndex == viewStore.words.count - 1 {
-                                    viewStore.send(.completeCards)
-                                } else {
-                                    viewStore.send(.nextCard)
-                                }
-                            }) {
-                                Image(systemName: "arrow.right.circle.fill")
-                                    .font(.largeTitle)
-                                    .foregroundColor(.blue)
-                            }
-                            .padding()
-                        }
                         .padding(.bottom)
                     }
                 }
@@ -375,6 +338,7 @@ struct FlashCardView: View {
                 
                 VStack(spacing: 20) {
                     Text(word.term)
+                        .foregroundColor(.black)
                         .font(.system(size: 32, weight: .bold))
                         .multilineTextAlignment(.center)
                         .padding()
@@ -384,6 +348,7 @@ struct FlashCardView: View {
                             .padding(.horizontal)
                         
                         Text(word.definition)
+                            .foregroundColor(.black)
                             .font(.system(size: 24))
                             .multilineTextAlignment(.center)
                             .padding()
@@ -391,7 +356,7 @@ struct FlashCardView: View {
                     } else {
                         Text("タップして意味を表示")
                             .font(.subheadline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.gray)
                             .padding(.bottom)
                     }
                 }
