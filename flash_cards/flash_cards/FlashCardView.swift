@@ -246,13 +246,13 @@ struct FlashCardView: View {
         let threshold: CGFloat = 50
         withAnimation(.easeInOut(duration: 0.2)) {
             if offset > threshold {
-                // 右スワイプ = ハズレ
-                showingIncorrectIcon = true
-                showingCorrectIcon = false
-            } else if offset < -threshold {
-                // 左スワイプ = 正解
+                // 右スワイプ = 正解
                 showingCorrectIcon = true
                 showingIncorrectIcon = false
+            } else if offset < -threshold {
+                // 左スワイプ = ハズレ
+                showingIncorrectIcon = true
+                showingCorrectIcon = false
             } else {
                 showingCorrectIcon = false
                 showingIncorrectIcon = false
@@ -266,7 +266,7 @@ struct FlashCardView: View {
         
         if abs(gesture.translation.width) > threshold || abs(velocity) > 500 {
             if gesture.translation.width > 0 {
-                // 右スワイプ = わからない
+                // 右スワイプ = 理解している
                 withAnimation(.spring()) {
                     offset = UIScreen.main.bounds.width
                     rotation = 10
@@ -284,7 +284,7 @@ struct FlashCardView: View {
                     resetCardStateWithAnimation()
                 }
             } else if gesture.translation.width < 0 {
-                // 左スワイプ = 理解している
+                // 左スワイプ = わからない
                 withAnimation(.spring()) {
                     offset = -UIScreen.main.bounds.width
                     rotation = -10
