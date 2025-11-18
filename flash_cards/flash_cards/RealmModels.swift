@@ -67,7 +67,7 @@ class RealmMigration {
         do {
             _ = try Realm()
         } catch {
-            
+            print("Realm initialization or migration failed: \(error)")
         }
     }
 }
