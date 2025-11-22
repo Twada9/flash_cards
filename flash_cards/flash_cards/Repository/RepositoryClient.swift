@@ -21,7 +21,7 @@ struct RepositoryClient {
     var deleteWord: @Sendable (UUID) async throws -> Void
     var updateWord: @Sendable (Word) async throws -> Void
     
-    // JSON import関連の操作
+    // JSON import related operations
     var importDeckFromJSON: @Sendable (DeckJSON) async throws -> Void
     var importDecksFromJSON: @Sendable ([DeckJSON]) async throws -> Void
 }

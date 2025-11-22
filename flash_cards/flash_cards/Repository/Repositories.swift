@@ -168,7 +168,6 @@ class DeckRepository: DeckRepositoryProtocol {
     
     // JSONからDeckと単語をインポート
     func importDeckFromJSON(_ deckJSON: DeckJSON) throws {
-        print("[DeckRepository] Importing deck from JSON: \(deckJSON.title)")
         let realm = try getRealm()
         
         // Deckを作成
@@ -193,15 +192,12 @@ class DeckRepository: DeckRepositoryProtocol {
                 }
             }
         }
-        print("[DeckRepository] Deck imported successfully with \(deckJSON.words?.count ?? 0) words")
     }
     
     // 複数のDecksをJSONからインポート
     func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws {
-        print("[DeckRepository] Importing \(decksJSON.count) decks from JSON")
         for deckJSON in decksJSON {
             try importDeckFromJSON(deckJSON)
         }
-        print("[DeckRepository] All decks imported successfully")
     }
 }

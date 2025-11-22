@@ -51,23 +51,30 @@ struct ImportJSON: Reducer {
                 
                 return .run { send in
                     do {
-                        // まず単一のDeckとしてパース
-                        if let deck = try? JSONImportService.importDeck(from: jsonText) {
+                        // Try to parse as a single deck first
+                        do {
+                            let deck = try JSONImportService.importDeck(from: jsonText)
                             try await repositoryClient.importDeckFromJSON(deck)
                             await send(.importCompleted)
                             return
+                        } catch let singleDeckError {
+                            // If single deck parsing fails, try multiple decks
+                            do {
+                                let decks = try JSONImportService.importDecks(from: jsonText)
+                                try await repositoryClient.importDecksFromJSON(decks)
+                                await send(.importCompleted)
+                                return
+                            } catch {
+                                // If both fail, report the more helpful error
+                                // If the JSON is an array, report the array parsing error, otherwise report single deck error
+                                let trimmedJSON = jsonText.trimmingCharacters(in: .whitespacesAndNewlines)
+                                if trimmedJSON.hasPrefix("[") {
+                                    throw error // Report array parsing error
+                                } else {
+                                    throw singleDeckError // Report single deck error
+                                }
+                            }
                         }
-                        
-                        // 次に複数のDecksとしてパース
-                        if let decks = try? JSONImportService.importDecks(from: jsonText) {
-                            try await repositoryClient.importDecksFromJSON(decks)
-                            await send(.importCompleted)
-                            return
-                        }
-                        
-                        // どちらでもない場合はエラー
-                        await send(.importFailed("無効なJSON形式です"))
-                        
                     } catch {
                         await send(.importFailed(error.localizedDescription))
                     }
