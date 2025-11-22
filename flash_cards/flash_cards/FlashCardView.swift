@@ -9,6 +9,8 @@ import SwiftUI
 import ComposableArchitecture
 
 // 間違えた問題を表す構造体
+// Note: 本プロジェクトでは、ドメインモデルは主に使用されるFeatureファイル内で定義するパターンを採用しています
+// （例: Word は EditWordView.swift、Deck は DeckListView.swift）
 struct IncorrectAnswer: Identifiable, Equatable {
     var id: UUID
     var deckId: UUID
