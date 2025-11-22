@@ -1,0 +1,70 @@
+[
+  {
+    "id": "deck1111-1111-1111-1111-111111111111",
+    "title": "日常会話",
+    "words": [
+      {
+        "id": "word1111-1111-1111-1111-111111111111",
+        "term": "How are you?",
+        "definition": "お元気ですか？"
+      },
+      {
+        "id": "word2222-2222-2222-2222-222222222222",
+        "term": "I'm fine",
+        "definition": "元気です"
+      },
+      {
+        "id": "word3333-3333-3333-3333-333333333333",
+        "term": "See you later",
+        "definition": "また後で"
+      }
+    ]
+  },
+  {
+    "id": "deck2222-2222-2222-2222-222222222222",
+    "title": "食べ物",
+    "words": [
+      {
+        "id": "word4444-4444-4444-4444-444444444444",
+        "term": "Apple",
+        "definition": "りんご"
+      },
+      {
+        "id": "word5555-5555-5555-5555-555555555555",
+        "term": "Banana",
+        "definition": "バナナ"
+      },
+      {
+        "id": "word6666-6666-6666-6666-666666666666",
+        "term": "Orange",
+        "definition": "オレンジ"
+      },
+      {
+        "id": "word7777-7777-7777-7777-777777777777",
+        "term": "Water",
+        "definition": "水"
+      }
+    ]
+  },
+  {
+    "id": "deck3333-3333-3333-3333-333333333333",
+    "title": "数字",
+    "words": [
+      {
+        "id": "word8888-8888-8888-8888-888888888888",
+        "term": "One",
+        "definition": "一"
+      },
+      {
+        "id": "word9999-9999-9999-9999-999999999999",
+        "term": "Two",
+        "definition": "二"
+      },
+      {
+        "id": "wordaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "term": "Three",
+        "definition": "三"
+      }
+    ]
+  }
+]
