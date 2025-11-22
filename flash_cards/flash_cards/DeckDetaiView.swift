@@ -126,7 +126,7 @@ struct DeckDetail: Reducer {
             case .flashCardButtonTapped:
                 // フラッシュカード画面を表示
                 let words = state.words.elements
-                state.flashCard = FlashCard.State(words: words)
+                state.flashCard = FlashCard.State(deckId: state.deckId, words: words)
                 return .none
                 
             case .flashCard:

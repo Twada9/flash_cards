@@ -8,8 +8,26 @@
 import SwiftUI
 import ComposableArchitecture
 
+// 間違えた問題を表す構造体
+struct IncorrectAnswer: Identifiable, Equatable {
+    var id: UUID
+    var deckId: UUID
+    var wordId: UUID
+    var answeredAt: Date
+    var reviewCount: Int
+    
+    init(id: UUID = UUID(), deckId: UUID, wordId: UUID, answeredAt: Date = Date(), reviewCount: Int = 0) {
+        self.id = id
+        self.deckId = deckId
+        self.wordId = wordId
+        self.answeredAt = answeredAt
+        self.reviewCount = reviewCount
+    }
+}
+
 struct FlashCard: Reducer {
     struct State: Equatable {
+        var deckId: UUID
         var words: [Word]
         var currentIndex: Int = 0
         var isShowingDefinition: Bool = false
@@ -43,7 +61,11 @@ struct FlashCard: Reducer {
         case completeCards
         case dismissCompletion
         case close
+        case markAsIncorrect(Word)
+        case markAsCorrect(Word)
     }
+    
+    @Dependency(\.repositoryClient) private var repositoryClient
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
@@ -86,6 +108,25 @@ struct FlashCard: Reducer {
                 return .none
                 
             case .close:
+                return .none
+                
+            case .markAsIncorrect(let word):
+                // 間違えた問題として保存
+                let incorrectAnswer = IncorrectAnswer(
+                    deckId: state.deckId,
+                    wordId: word.id
+                )
+                return .run { send in
+                    do {
+                        try await repositoryClient.saveIncorrectAnswer(incorrectAnswer)
+                        print("[FlashCard] Saved incorrect answer for word: \(word.term)")
+                    } catch {
+                        print("[FlashCard] Error saving incorrect answer: \(error)")
+                    }
+                }
+                
+            case .markAsCorrect:
+                // 正解の場合は特に何もしない（将来的に正解率などを記録する可能性がある）
                 return .none
             }
         }
@@ -276,6 +317,11 @@ struct FlashCardView: View {
                     backOpacity = 1
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+                    // 右スワイプ = 理解している（正解）
+                    if let currentWord = viewStore.currentWord {
+                        viewStore.send(.markAsCorrect(currentWord))
+                    }
+                    
                     if viewStore.isLastCard {
                         viewStore.send(.completeCards)
                     } else {
@@ -295,6 +341,11 @@ struct FlashCardView: View {
                 }
 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
+                    // 左スワイプ = わからない（間違い）
+                    if let currentWord = viewStore.currentWord {
+                        viewStore.send(.markAsIncorrect(currentWord))
+                    }
+                    
                     if viewStore.isLastCard {
                         viewStore.send(.completeCards)
                     } else {
@@ -373,6 +424,7 @@ struct FlashCardView: View {
         FlashCardView(
             store: Store(
                 initialState: FlashCard.State(
+                    deckId: UUID(),
                     words: [
                         Word(term: "Hello", definition: "こんにちは"),
                         Word(term: "World", definition: "世界"),

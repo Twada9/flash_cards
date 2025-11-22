@@ -5,6 +5,7 @@ import ComposableArchitecture
 struct RepositoryClient {
     var deckRepository: DeckRepositoryProtocol
     var wordRepository: WordRepositoryProtocol
+    var incorrectAnswerRepository: IncorrectAnswerRepositoryProtocol
     
     // デッキ関連の操作
     var saveDeck: @Sendable (Deck) async throws -> Void
@@ -20,16 +21,25 @@ struct RepositoryClient {
     var getWords: @Sendable (UUID) async -> [Word]
     var deleteWord: @Sendable (UUID) async throws -> Void
     var updateWord: @Sendable (Word) async throws -> Void
+    
+    // 間違えた問題関連の操作
+    var saveIncorrectAnswer: @Sendable (IncorrectAnswer) async throws -> Void
+    var getAllIncorrectAnswers: @Sendable () async -> [IncorrectAnswer]
+    var getIncorrectAnswers: @Sendable (UUID) async -> [IncorrectAnswer]
+    var deleteIncorrectAnswer: @Sendable (UUID) async throws -> Void
+    var incrementReviewCount: @Sendable (UUID) async throws -> Void
 }
 
 extension RepositoryClient: DependencyKey {
     static var liveValue: RepositoryClient {
         let deckRepo = DeckRepository()
         let wordRepo = WordRepository()
+        let incorrectAnswerRepo = IncorrectAnswerRepository()
         
         return RepositoryClient(
             deckRepository: deckRepo,
             wordRepository: wordRepo,
+            incorrectAnswerRepository: incorrectAnswerRepo,
             saveDeck: { deck in
                 try await Task {
                     try deckRepo.saveDeck(deck)
@@ -84,6 +94,31 @@ extension RepositoryClient: DependencyKey {
                 try await Task {
                     try wordRepo.updateWord(word)
                 }.value
+            },
+            saveIncorrectAnswer: { incorrectAnswer in
+                try await Task {
+                    try incorrectAnswerRepo.saveIncorrectAnswer(incorrectAnswer)
+                }.value
+            },
+            getAllIncorrectAnswers: {
+                await Task {
+                    incorrectAnswerRepo.getAllIncorrectAnswers()
+                }.value
+            },
+            getIncorrectAnswers: { deckId in
+                await Task {
+                    incorrectAnswerRepo.getIncorrectAnswers(forDeckId: deckId)
+                }.value
+            },
+            deleteIncorrectAnswer: { id in
+                try await Task {
+                    try incorrectAnswerRepo.deleteIncorrectAnswer(id: id)
+                }.value
+            },
+            incrementReviewCount: { id in
+                try await Task {
+                    try incorrectAnswerRepo.incrementReviewCount(id: id)
+                }.value
             }
         )
     }
@@ -93,6 +128,7 @@ extension RepositoryClient: DependencyKey {
         RepositoryClient(
             deckRepository: MockDeckRepository(),
             wordRepository: MockWordRepository(),
+            incorrectAnswerRepository: MockIncorrectAnswerRepository(),
             saveDeck: { _ in },
             getAllDecks: { [] },
             getDeck: { _ in nil },
@@ -103,7 +139,12 @@ extension RepositoryClient: DependencyKey {
             saveWord: { _ in },
             getWords: { _ in [] },
             deleteWord: { _ in },
-            updateWord: { _ in }
+            updateWord: { _ in },
+            saveIncorrectAnswer: { _ in },
+            getAllIncorrectAnswers: { [] },
+            getIncorrectAnswers: { _ in [] },
+            deleteIncorrectAnswer: { _ in },
+            incrementReviewCount: { _ in }
         )
     }
 }
@@ -169,6 +210,32 @@ class MockWordRepository: WordRepositoryProtocol {
     func updateWord(_ word: Word) throws {
         if let index = words.firstIndex(where: { $0.id == word.id }) {
             words[index] = word
+        }
+    }
+}
+
+class MockIncorrectAnswerRepository: IncorrectAnswerRepositoryProtocol {
+    var incorrectAnswers: [IncorrectAnswer] = []
+    
+    func saveIncorrectAnswer(_ incorrectAnswer: IncorrectAnswer) throws {
+        incorrectAnswers.append(incorrectAnswer)
+    }
+    
+    func getAllIncorrectAnswers() -> [IncorrectAnswer] {
+        return incorrectAnswers
+    }
+    
+    func getIncorrectAnswers(forDeckId deckId: UUID) -> [IncorrectAnswer] {
+        return incorrectAnswers.filter { $0.deckId == deckId }
+    }
+    
+    func deleteIncorrectAnswer(id: UUID) throws {
+        incorrectAnswers.removeAll(where: { $0.id == id })
+    }
+    
+    func incrementReviewCount(id: UUID) throws {
+        if let index = incorrectAnswers.firstIndex(where: { $0.id == id }) {
+            incorrectAnswers[index].reviewCount += 1
         }
     }
 }
