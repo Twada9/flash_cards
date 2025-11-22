@@ -166,20 +166,20 @@ class DeckRepository: DeckRepositoryProtocol {
         }
     }
     
-    // JSONからDeckと単語をインポート
+    // Import a deck from JSON (with optional words)
     func importDeckFromJSON(_ deckJSON: DeckJSON) throws {
         let realm = try getRealm()
         
-        // Deckを作成
+        // Create deck
         let realmDeck = RealmDeck()
         realmDeck.id = deckJSON.id
         realmDeck.title = deckJSON.title
         
         try realm.write {
-            // Deckを保存
+            // Save deck
             realm.add(realmDeck, update: .modified)
             
-            // 単語があれば追加
+            // Add words if present
             if let words = deckJSON.words {
                 for wordJSON in words {
                     let realmWord = RealmWord()
@@ -194,10 +194,34 @@ class DeckRepository: DeckRepositoryProtocol {
         }
     }
     
-    // 複数のDecksをJSONからインポート
+    // Import multiple decks from JSON in a single transaction
     func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws {
-        for deckJSON in decksJSON {
-            try importDeckFromJSON(deckJSON)
+        let realm = try getRealm()
+        
+        // Batch all operations into a single transaction for performance and atomicity
+        try realm.write {
+            for deckJSON in decksJSON {
+                // Create deck
+                let realmDeck = RealmDeck()
+                realmDeck.id = deckJSON.id
+                realmDeck.title = deckJSON.title
+                
+                // Save deck
+                realm.add(realmDeck, update: .modified)
+                
+                // Add words if present
+                if let words = deckJSON.words {
+                    for wordJSON in words {
+                        let realmWord = RealmWord()
+                        realmWord.id = wordJSON.id
+                        realmWord.term = wordJSON.term
+                        realmWord.definition = wordJSON.definition
+                        
+                        realm.add(realmWord, update: .modified)
+                        realmDeck.words.append(realmWord)
+                    }
+                }
+            }
         }
     }
 }

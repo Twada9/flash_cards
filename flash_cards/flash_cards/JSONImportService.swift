@@ -8,10 +8,10 @@
 import Foundation
 import ComposableArchitecture
 
-// JSON importサービス
+// JSON import service
 struct JSONImportService {
     
-    // JSON文字列からDecksをインポート（単語付き）
+    // Import a deck from JSON string (with optional words)
     static func importDeck(from jsonString: String) throws -> DeckJSON {
         guard !jsonString.isEmpty else {
             throw JSONImportError.emptyData
