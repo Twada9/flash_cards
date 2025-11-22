@@ -61,8 +61,8 @@ struct WordJSON: Codable, Identifiable, Equatable {
 enum JSONImportError: LocalizedError {
     case invalidJSON
     case emptyData
-    case invalidFormat
     case decodingError(String)
+    case encodingError(String)
     
     var errorDescription: String? {
         switch self {
@@ -70,10 +70,10 @@ enum JSONImportError: LocalizedError {
             return "無効なJSON形式です"
         case .emptyData:
             return "データが空です"
-        case .invalidFormat:
-            return "データ形式が正しくありません"
         case .decodingError(let message):
             return "データの読み込みに失敗しました: \(message)"
+        case .encodingError(let message):
+            return "データの書き出しに失敗しました: \(message)"
         }
     }
 }

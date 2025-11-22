@@ -80,7 +80,7 @@ struct JSONImportService {
             }
             return jsonString
         } catch {
-            throw JSONImportError.decodingError(error.localizedDescription)
+            throw JSONImportError.encodingError(error.localizedDescription)
         }
     }
     
@@ -96,7 +96,7 @@ struct JSONImportService {
             }
             return jsonString
         } catch {
-            throw JSONImportError.decodingError(error.localizedDescription)
+            throw JSONImportError.encodingError(error.localizedDescription)
         }
     }
     
@@ -112,7 +112,7 @@ struct JSONImportService {
             }
             return jsonString
         } catch {
-            throw JSONImportError.decodingError(error.localizedDescription)
+            throw JSONImportError.encodingError(error.localizedDescription)
         }
     }
 }
