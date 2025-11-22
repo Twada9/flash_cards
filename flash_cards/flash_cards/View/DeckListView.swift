@@ -13,6 +13,7 @@ struct DeckList: Reducer {
         var decks: IdentifiedArrayOf<Deck> = []
         @PresentationState var selectedDeck: DeckDetail.State?
         @PresentationState var createDeck: CreateDeck.State?
+        @PresentationState var importJSON: ImportJSON.State?
         var hasInitialLoad = false
     }
     
@@ -20,10 +21,12 @@ struct DeckList: Reducer {
         case onAppear
         case decksLoaded([Deck])
         case createDeckButtonTapped
+        case importJSONButtonTapped
         case deckTapped(Deck)
         case deleteDeck(IndexSet)
         case selectedDeck(PresentationAction<DeckDetail.Action>)
         case createDeck(PresentationAction<CreateDeck.Action>)
+        case importJSON(PresentationAction<ImportJSON.Action>)
         case saveDeck(Deck)
     }
     
@@ -48,6 +51,10 @@ struct DeckList: Reducer {
                 
             case .createDeckButtonTapped:
                 state.createDeck = CreateDeck.State()
+                return .none
+                
+            case .importJSONButtonTapped:
+                state.importJSON = ImportJSON.State()
                 return .none
                 
             case .deckTapped(let deck):
@@ -96,6 +103,14 @@ struct DeckList: Reducer {
                 }
                 return .none
                 
+            case .importJSON(.dismiss):
+                state.importJSON = nil
+                // JSONインポート後にデッキリストを再読み込み
+                return .run { send in
+                    let decks = await repositoryClient.getAllDecks()
+                    await send(.decksLoaded(decks))
+                }
+                
             case .saveDeck(let deck):
                 // すでに存在するかチェック
                 if state.decks[id: deck.id] == nil {
@@ -123,6 +138,9 @@ struct DeckList: Reducer {
         .ifLet(\.$createDeck, action: /Action.createDeck) {
             CreateDeck()
         }
+        .ifLet(\.$importJSON, action: /Action.importJSON) {
+            ImportJSON()
+        }
     }
 }
 
@@ -141,16 +159,33 @@ struct DeckListView: View {
                             Text("単語帳がありません")
                                 .font(.headline)
                                 .foregroundColor(.gray)
-                            Button {
-                                viewStore.send(.createDeckButtonTapped)
-                            } label: {
-                                Label("新しい単語帳を作成", systemImage: "plus.circle.fill")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding()
-                                    .background(Color.blue)
-                                    .cornerRadius(10)
+                            
+                            VStack(spacing: 12) {
+                                Button {
+                                    viewStore.send(.createDeckButtonTapped)
+                                } label: {
+                                    Label("新しい単語帳を作成", systemImage: "plus.circle.fill")
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.blue)
+                                        .cornerRadius(10)
+                                }
+                                
+                                Button {
+                                    viewStore.send(.importJSONButtonTapped)
+                                } label: {
+                                    Label("JSONをインポート", systemImage: "square.and.arrow.down")
+                                        .font(.headline)
+                                        .foregroundColor(.blue)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.blue.opacity(0.1))
+                                        .cornerRadius(10)
+                                }
                             }
+                            .padding(.horizontal, 40)
                         }
                     } else {
                         List {
@@ -182,10 +217,19 @@ struct DeckListView: View {
                 .toolbar {
                     if !viewStore.decks.isEmpty {
                         ToolbarItem(placement: .navigationBarTrailing) {
-                            Button {
-                                viewStore.send(.createDeckButtonTapped)
+                            Menu {
+                                Button {
+                                    viewStore.send(.createDeckButtonTapped)
+                                } label: {
+                                    Label("新しい単語帳", systemImage: "plus")
+                                }
+                                Button {
+                                    viewStore.send(.importJSONButtonTapped)
+                                } label: {
+                                    Label("JSONをインポート", systemImage: "square.and.arrow.down")
+                                }
                             } label: {
-                                Image(systemName: "plus")
+                                Image(systemName: "ellipsis.circle")
                             }
                         }
                     }
@@ -205,6 +249,14 @@ struct DeckListView: View {
                 content: { createDeckStore in
                     NavigationView {
                         CreateDeckView(store: createDeckStore)
+                    }
+                }
+            )
+            .sheet(
+                store: self.store.scope(state: \.$importJSON, action: DeckList.Action.importJSON),
+                content: { importJSONStore in
+                    NavigationView {
+                        ImportJSONView(store: importJSONStore)
                     }
                 }
             )

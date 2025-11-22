@@ -83,6 +83,8 @@ protocol DeckRepositoryProtocol {
     func updateDeck(_ deck: Deck) throws
     func addWordToDeck(deckId: UUID, word: Word) throws
     func removeWordFromDeck(deckId: UUID, wordId: UUID) throws
+    func importDeckFromJSON(_ deckJSON: DeckJSON) throws
+    func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws
 }
 
 class DeckRepository: DeckRepositoryProtocol {
@@ -162,5 +164,44 @@ class DeckRepository: DeckRepositoryProtocol {
         try realm.write {
             realmDeck.words.remove(at: wordIndex)
         }
+    }
+    
+    // JSONからDeckと単語をインポート
+    func importDeckFromJSON(_ deckJSON: DeckJSON) throws {
+        print("[DeckRepository] Importing deck from JSON: \(deckJSON.title)")
+        let realm = try getRealm()
+        
+        // Deckを作成
+        let realmDeck = RealmDeck()
+        realmDeck.id = deckJSON.id
+        realmDeck.title = deckJSON.title
+        
+        try realm.write {
+            // Deckを保存
+            realm.add(realmDeck, update: .modified)
+            
+            // 単語があれば追加
+            if let words = deckJSON.words {
+                for wordJSON in words {
+                    let realmWord = RealmWord()
+                    realmWord.id = wordJSON.id
+                    realmWord.term = wordJSON.term
+                    realmWord.definition = wordJSON.definition
+                    
+                    realm.add(realmWord, update: .modified)
+                    realmDeck.words.append(realmWord)
+                }
+            }
+        }
+        print("[DeckRepository] Deck imported successfully with \(deckJSON.words?.count ?? 0) words")
+    }
+    
+    // 複数のDecksをJSONからインポート
+    func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws {
+        print("[DeckRepository] Importing \(decksJSON.count) decks from JSON")
+        for deckJSON in decksJSON {
+            try importDeckFromJSON(deckJSON)
+        }
+        print("[DeckRepository] All decks imported successfully")
     }
 }
