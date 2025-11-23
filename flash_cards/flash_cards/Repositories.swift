@@ -2,6 +2,69 @@ import Foundation
 import RealmSwift
 import ComposableArchitecture
 
+// IncorrectAnswerRepository - 間違えた問題の保存と取得を担当
+protocol IncorrectAnswerRepositoryProtocol {
+    func saveIncorrectAnswer(_ incorrectAnswer: IncorrectAnswer) throws
+    func getAllIncorrectAnswers() -> [IncorrectAnswer]
+    func getIncorrectAnswers(forDeckId deckId: UUID) -> [IncorrectAnswer]
+    func deleteIncorrectAnswer(id: UUID) throws
+    func incrementReviewCount(id: UUID) throws
+}
+
+class IncorrectAnswerRepository: IncorrectAnswerRepositoryProtocol {
+    @Dependency(\.realmConfiguration) var realmConfig
+    
+    private func getRealm() throws -> Realm {
+        return try realmConfig.getRealm()
+    }
+    
+    func saveIncorrectAnswer(_ incorrectAnswer: IncorrectAnswer) throws {
+        let realm = try getRealm()
+        let realmIncorrectAnswer = RealmIncorrectAnswer(incorrectAnswer: incorrectAnswer)
+        try realm.write {
+            realm.add(realmIncorrectAnswer, update: .modified)
+        }
+        print("[IncorrectAnswerRepository] Saved incorrect answer for word: \(incorrectAnswer.wordId)")
+    }
+    
+    func getAllIncorrectAnswers() -> [IncorrectAnswer] {
+        guard let realm = try? getRealm() else { return [] }
+        let incorrectAnswers = Array(realm.objects(RealmIncorrectAnswer.self)).map { $0.toIncorrectAnswer() }
+        return incorrectAnswers
+    }
+    
+    func getIncorrectAnswers(forDeckId deckId: UUID) -> [IncorrectAnswer] {
+        guard let realm = try? getRealm() else { return [] }
+        let incorrectAnswers = Array(
+            realm.objects(RealmIncorrectAnswer.self)
+                .filter("deckId == %@", deckId)
+        ).map { $0.toIncorrectAnswer() }
+        return incorrectAnswers
+    }
+    
+    func deleteIncorrectAnswer(id: UUID) throws {
+        let realm = try getRealm()
+        guard let realmIncorrectAnswer = realm.object(ofType: RealmIncorrectAnswer.self, forPrimaryKey: id) else {
+            return
+        }
+        
+        try realm.write {
+            realm.delete(realmIncorrectAnswer)
+        }
+    }
+    
+    func incrementReviewCount(id: UUID) throws {
+        let realm = try getRealm()
+        guard let realmIncorrectAnswer = realm.object(ofType: RealmIncorrectAnswer.self, forPrimaryKey: id) else {
+            return
+        }
+        
+        try realm.write {
+            realmIncorrectAnswer.reviewCount += 1
+        }
+    }
+}
+
 // WordRepository - 単語の保存と取得を担当
 protocol WordRepositoryProtocol {
     func saveWord(_ word: Word) throws
