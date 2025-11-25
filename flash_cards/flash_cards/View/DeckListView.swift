@@ -8,17 +8,6 @@
 import SwiftUI
 import ComposableArchitecture
 
-// Deckモデルはすでに定義されているので、IDを明示的に設定できるよう修正します
-struct Deck: Identifiable, Equatable {
-    var id: UUID
-    var title: String
-    
-    init(id: UUID = UUID(), title: String) {
-        self.id = id
-        self.title = title
-    }
-}
-
 struct DeckList: Reducer {
     struct State: Equatable {
         var decks: IdentifiedArrayOf<Deck> = []

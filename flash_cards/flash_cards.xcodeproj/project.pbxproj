@@ -8,23 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1A05D40D2D61844200B945C4 /* flash_cardsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D40C2D61844200B945C4 /* flash_cardsApp.swift */; };
-		1A05D40F2D61844200B945C4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D40E2D61844200B945C4 /* ContentView.swift */; };
 		1A05D4112D61844300B945C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A05D4102D61844300B945C4 /* Assets.xcassets */; };
 		1A05D4142D61844300B945C4 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A05D4132D61844300B945C4 /* Preview Assets.xcassets */; };
 		1A05D41E2D61844300B945C4 /* flash_cardsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D41D2D61844300B945C4 /* flash_cardsTests.swift */; };
 		1A05D4282D61844300B945C4 /* flash_cardsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4272D61844300B945C4 /* flash_cardsUITests.swift */; };
 		1A05D42A2D61844300B945C4 /* flash_cardsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4292D61844300B945C4 /* flash_cardsUITestsLaunchTests.swift */; };
 		1A05D46E2D61CB6E00B945C4 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 1A05D46D2D61CB6E00B945C4 /* ComposableArchitecture */; };
-		1A05D4722D61CBA400B945C4 /* CreateDeckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4712D61CBA400B945C4 /* CreateDeckView.swift */; };
-		1A05D4742D61DF9900B945C4 /* EditWordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4732D61DF9900B945C4 /* EditWordView.swift */; };
-		1A05D4762D61F3FE00B945C4 /* DeckDetaiView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A05D4752D61F3FE00B945C4 /* DeckDetaiView.swift */; };
-		1A441E0C2D870FBD00078AD8 /* RealmModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0B2D870FBD00078AD8 /* RealmModels.swift */; };
-		1A441E0E2D870FC300078AD8 /* Repositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0D2D870FC300078AD8 /* Repositories.swift */; };
-		1A441E102D870FC700078AD8 /* RepositoryClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */; };
-		1A4678772D6C95F9008951DC /* DeckListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A4678762D6C95F9008951DC /* DeckListView.swift */; };
 		1A4A8FCA2ECBD7C0000626A6 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A8FC92ECBD7C0000626A6 /* RealmSwift */; };
 		1A4A8FCB2ECBD80D000626A6 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A8FC92ECBD7C0000626A6 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		1A5E90C02D756DAF005AE0C2 /* FlashCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */; };
 		1A6F508C2D8726B6002AEEB6 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6F508B2D8726B6002AEEB6 /* DemoData.swift */; };
 		1AF510312ED1D8A600159ED7 /* AIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF510302ED1D8A600159ED7 /* AIUseCase.swift */; };
 		1AF510332ED1DBD000159ED7 /* AIUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF510322ED1DBD000159ED7 /* AIUseCaseTests.swift */; };
@@ -64,7 +55,6 @@
 /* Begin PBXFileReference section */
 		1A05D4092D61844200B945C4 /* flash_cards.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = flash_cards.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A05D40C2D61844200B945C4 /* flash_cardsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flash_cardsApp.swift; sourceTree = "<group>"; };
-		1A05D40E2D61844200B945C4 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1A05D4102D61844300B945C4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A05D4132D61844300B945C4 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		1A05D4192D61844300B945C4 /* flash_cardsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flash_cardsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,18 +62,16 @@
 		1A05D4232D61844300B945C4 /* flash_cardsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = flash_cardsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A05D4272D61844300B945C4 /* flash_cardsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flash_cardsUITests.swift; sourceTree = "<group>"; };
 		1A05D4292D61844300B945C4 /* flash_cardsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = flash_cardsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		1A05D4712D61CBA400B945C4 /* CreateDeckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDeckView.swift; sourceTree = "<group>"; };
-		1A05D4732D61DF9900B945C4 /* EditWordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWordView.swift; sourceTree = "<group>"; };
-		1A05D4752D61F3FE00B945C4 /* DeckDetaiView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckDetaiView.swift; sourceTree = "<group>"; };
-		1A441E0B2D870FBD00078AD8 /* RealmModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmModels.swift; sourceTree = "<group>"; };
-		1A441E0D2D870FC300078AD8 /* Repositories.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Repositories.swift; sourceTree = "<group>"; };
-		1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepositoryClient.swift; sourceTree = "<group>"; };
-		1A4678762D6C95F9008951DC /* DeckListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckListView.swift; sourceTree = "<group>"; };
-		1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashCardView.swift; sourceTree = "<group>"; };
 		1A6F508B2D8726B6002AEEB6 /* DemoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
 		1AF510302ED1D8A600159ED7 /* AIUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUseCase.swift; sourceTree = "<group>"; };
 		1AF510322ED1DBD000159ED7 /* AIUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		1ADC654B2ED20F6400554215 /* View */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = View; sourceTree = "<group>"; };
+		1ADC654C2ED20F7900554215 /* Data */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Data; sourceTree = "<group>"; };
+		1ADC65512ED20F9E00554215 /* Repository */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Repository; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1A05D4062D61844200B945C4 /* Frameworks */ = {
@@ -135,18 +123,12 @@
 		1A05D40B2D61844200B945C4 /* flash_cards */ = {
 			isa = PBXGroup;
 			children = (
+				1ADC65512ED20F9E00554215 /* Repository */,
+				1ADC654C2ED20F7900554215 /* Data */,
+				1ADC654B2ED20F6400554215 /* View */,
 				1A05D40C2D61844200B945C4 /* flash_cardsApp.swift */,
-				1A05D40E2D61844200B945C4 /* ContentView.swift */,
-				1A05D4712D61CBA400B945C4 /* CreateDeckView.swift */,
 				1A05D4102D61844300B945C4 /* Assets.xcassets */,
 				1A05D4122D61844300B945C4 /* Preview Content */,
-				1A05D4732D61DF9900B945C4 /* EditWordView.swift */,
-				1A05D4752D61F3FE00B945C4 /* DeckDetaiView.swift */,
-				1A441E0D2D870FC300078AD8 /* Repositories.swift */,
-				1A4678762D6C95F9008951DC /* DeckListView.swift */,
-				1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */,
-				1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */,
-				1A441E0B2D870FBD00078AD8 /* RealmModels.swift */,
 				1A6F508B2D8726B6002AEEB6 /* DemoData.swift */,
 				1AF510302ED1D8A600159ED7 /* AIUseCase.swift */,
 			);
@@ -194,6 +176,11 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				1ADC654B2ED20F6400554215 /* View */,
+				1ADC654C2ED20F7900554215 /* Data */,
+				1ADC65512ED20F9E00554215 /* Repository */,
 			);
 			name = flash_cards;
 			packageProductDependencies = (
@@ -318,18 +305,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1A05D40F2D61844200B945C4 /* ContentView.swift in Sources */,
-				1A441E0C2D870FBD00078AD8 /* RealmModels.swift in Sources */,
-				1A05D4722D61CBA400B945C4 /* CreateDeckView.swift in Sources */,
 				1A6F508C2D8726B6002AEEB6 /* DemoData.swift in Sources */,
-				1A5E90C02D756DAF005AE0C2 /* FlashCardView.swift in Sources */,
-				1A05D4742D61DF9900B945C4 /* EditWordView.swift in Sources */,
-				1A441E0E2D870FC300078AD8 /* Repositories.swift in Sources */,
-				1A441E102D870FC700078AD8 /* RepositoryClient.swift in Sources */,
-				1A4678772D6C95F9008951DC /* DeckListView.swift in Sources */,
 				1AF510312ED1D8A600159ED7 /* AIUseCase.swift in Sources */,
 				1A05D40D2D61844200B945C4 /* flash_cardsApp.swift in Sources */,
-				1A05D4762D61F3FE00B945C4 /* DeckDetaiView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,10 +469,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"flash_cards/Preview Content\"";
-				DEVELOPMENT_TEAM = G6P94ZYTA7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = G6P94ZYTA7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -508,8 +489,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.myapp.flash-cards";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wdc.flash-cards";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "flash-cards";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -521,10 +504,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"flash_cards/Preview Content\"";
-				DEVELOPMENT_TEAM = G6P94ZYTA7;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = G6P94ZYTA7;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -538,8 +524,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.myapp.flash-cards";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.wdc.flash-cards";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "flash-cards";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
