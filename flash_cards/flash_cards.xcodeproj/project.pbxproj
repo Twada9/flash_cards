@@ -26,6 +26,8 @@
 		1A4A8FCB2ECBD80D000626A6 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 1A4A8FC92ECBD7C0000626A6 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		1A5E90C02D756DAF005AE0C2 /* FlashCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */; };
 		1A6F508C2D8726B6002AEEB6 /* DemoData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6F508B2D8726B6002AEEB6 /* DemoData.swift */; };
+		1AF510312ED1D8A600159ED7 /* AIUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF510302ED1D8A600159ED7 /* AIUseCase.swift */; };
+		1AF510332ED1DBD000159ED7 /* AIUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AF510322ED1DBD000159ED7 /* AIUseCaseTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,6 +81,8 @@
 		1A4678762D6C95F9008951DC /* DeckListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeckListView.swift; sourceTree = "<group>"; };
 		1A5E90BF2D756DAF005AE0C2 /* FlashCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlashCardView.swift; sourceTree = "<group>"; };
 		1A6F508B2D8726B6002AEEB6 /* DemoData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoData.swift; sourceTree = "<group>"; };
+		1AF510302ED1D8A600159ED7 /* AIUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUseCase.swift; sourceTree = "<group>"; };
+		1AF510322ED1DBD000159ED7 /* AIUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIUseCaseTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,7 @@
 				1A441E0F2D870FC700078AD8 /* RepositoryClient.swift */,
 				1A441E0B2D870FBD00078AD8 /* RealmModels.swift */,
 				1A6F508B2D8726B6002AEEB6 /* DemoData.swift */,
+				1AF510302ED1D8A600159ED7 /* AIUseCase.swift */,
 			);
 			path = flash_cards;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 			isa = PBXGroup;
 			children = (
 				1A05D41D2D61844300B945C4 /* flash_cardsTests.swift */,
+				1AF510322ED1DBD000159ED7 /* AIUseCaseTests.swift */,
 			);
 			path = flash_cardsTests;
 			sourceTree = "<group>";
@@ -321,6 +327,7 @@
 				1A441E0E2D870FC300078AD8 /* Repositories.swift in Sources */,
 				1A441E102D870FC700078AD8 /* RepositoryClient.swift in Sources */,
 				1A4678772D6C95F9008951DC /* DeckListView.swift in Sources */,
+				1AF510312ED1D8A600159ED7 /* AIUseCase.swift in Sources */,
 				1A05D40D2D61844200B945C4 /* flash_cardsApp.swift in Sources */,
 				1A05D4762D61F3FE00B945C4 /* DeckDetaiView.swift in Sources */,
 			);
@@ -331,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A05D41E2D61844300B945C4 /* flash_cardsTests.swift in Sources */,
+				1AF510332ED1DBD000159ED7 /* AIUseCaseTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
