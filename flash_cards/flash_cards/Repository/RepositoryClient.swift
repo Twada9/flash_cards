@@ -20,6 +20,10 @@ struct RepositoryClient {
     var getWords: @Sendable (UUID) async -> [Word]
     var deleteWord: @Sendable (UUID) async throws -> Void
     var updateWord: @Sendable (Word) async throws -> Void
+    
+    // JSON import related operations
+    var importDeckFromJSON: @Sendable (DeckJSON) async throws -> Void
+    var importDecksFromJSON: @Sendable ([DeckJSON]) async throws -> Void
 }
 
 extension RepositoryClient: DependencyKey {
@@ -84,6 +88,16 @@ extension RepositoryClient: DependencyKey {
                 try await Task {
                     try wordRepo.updateWord(word)
                 }.value
+            },
+            importDeckFromJSON: { deckJSON in
+                try await Task {
+                    try deckRepo.importDeckFromJSON(deckJSON)
+                }.value
+            },
+            importDecksFromJSON: { decksJSON in
+                try await Task {
+                    try deckRepo.importDecksFromJSON(decksJSON)
+                }.value
             }
         )
     }
@@ -103,7 +117,9 @@ extension RepositoryClient: DependencyKey {
             saveWord: { _ in },
             getWords: { _ in [] },
             deleteWord: { _ in },
-            updateWord: { _ in }
+            updateWord: { _ in },
+            importDeckFromJSON: { _ in },
+            importDecksFromJSON: { _ in }
         )
     }
 }
@@ -148,6 +164,19 @@ class MockDeckRepository: DeckRepositoryProtocol {
     
     func removeWordFromDeck(deckId: UUID, wordId: UUID) throws {
         // モック実装なので実際のデータ操作はしない
+    }
+    
+    func importDeckFromJSON(_ deckJSON: DeckJSON) throws {
+        // モック実装: Deckを保存
+        let deck = deckJSON.toDeck()
+        decks.append(deck)
+    }
+    
+    func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws {
+        // モック実装: 複数のDecksを保存
+        for deckJSON in decksJSON {
+            try importDeckFromJSON(deckJSON)
+        }
     }
 }
 

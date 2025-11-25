@@ -83,6 +83,8 @@ protocol DeckRepositoryProtocol {
     func updateDeck(_ deck: Deck) throws
     func addWordToDeck(deckId: UUID, word: Word) throws
     func removeWordFromDeck(deckId: UUID, wordId: UUID) throws
+    func importDeckFromJSON(_ deckJSON: DeckJSON) throws
+    func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws
 }
 
 class DeckRepository: DeckRepositoryProtocol {
@@ -161,6 +163,65 @@ class DeckRepository: DeckRepositoryProtocol {
         
         try realm.write {
             realmDeck.words.remove(at: wordIndex)
+        }
+    }
+    
+    // Import a deck from JSON (with optional words)
+    func importDeckFromJSON(_ deckJSON: DeckJSON) throws {
+        let realm = try getRealm()
+        
+        // Create deck
+        let realmDeck = RealmDeck()
+        realmDeck.id = deckJSON.id
+        realmDeck.title = deckJSON.title
+        
+        try realm.write {
+            // Save deck
+            realm.add(realmDeck, update: .modified)
+            
+            // Add words if present
+            if let words = deckJSON.words {
+                for wordJSON in words {
+                    let realmWord = RealmWord()
+                    realmWord.id = wordJSON.id
+                    realmWord.term = wordJSON.term
+                    realmWord.definition = wordJSON.definition
+                    
+                    realm.add(realmWord, update: .modified)
+                    realmDeck.words.append(realmWord)
+                }
+            }
+        }
+    }
+    
+    // Import multiple decks from JSON in a single transaction
+    func importDecksFromJSON(_ decksJSON: [DeckJSON]) throws {
+        let realm = try getRealm()
+        
+        // Batch all operations into a single transaction for performance and atomicity
+        try realm.write {
+            for deckJSON in decksJSON {
+                // Create deck
+                let realmDeck = RealmDeck()
+                realmDeck.id = deckJSON.id
+                realmDeck.title = deckJSON.title
+                
+                // Save deck
+                realm.add(realmDeck, update: .modified)
+                
+                // Add words if present
+                if let words = deckJSON.words {
+                    for wordJSON in words {
+                        let realmWord = RealmWord()
+                        realmWord.id = wordJSON.id
+                        realmWord.term = wordJSON.term
+                        realmWord.definition = wordJSON.definition
+                        
+                        realm.add(realmWord, update: .modified)
+                        realmDeck.words.append(realmWord)
+                    }
+                }
+            }
         }
     }
 }
